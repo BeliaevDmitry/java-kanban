@@ -10,10 +10,10 @@ public class TaskManager {
     private final HashMap<Integer, Subtask> subtaskCollection = new HashMap<>();
     private int idOfTasks = 0;
 
-        public void addTask(Task task) {
+    public void addTask(Task task) {
         task.setIdOfTask(calculateId());
         taskCollection.put(task.getIdOfTask(), task);
-            }
+    }
 
     public void updateTask(Task task) {
         if (taskCollection.containsKey(task.getIdOfTask())) {
@@ -23,6 +23,7 @@ public class TaskManager {
 
     public void updateEpic(Epic epic) {
         if (epicCollection.containsKey(epic.getIdOfTask())) {
+            calculateEpicStatus(epic);
             epicCollection.put(epic.getIdOfTask(), epic);
         }
     }
@@ -30,9 +31,9 @@ public class TaskManager {
     public void addEpic(Epic epic) {
         epic.setIdOfTask(calculateId());
         epicCollection.put(epic.getIdOfTask(), epic);
-            }
+    }
 
-     public void addSubtask(Subtask subtask) {
+    public void addSubtask(Subtask subtask) {
         subtask.setIdOfTask(calculateId());
         subtaskCollection.put(subtask.getIdOfTask(), subtask);
 
@@ -52,16 +53,16 @@ public class TaskManager {
         }
     }
 
-        public Collection<Task> getAllTasks() {
-        return taskCollection.values();
+    public ArrayList<Task> getAllTasks() {
+        return new ArrayList<>(taskCollection.values());
     }
 
-    public Collection<Epic> getAllEpics() {
-        return epicCollection.values();
+    public ArrayList<Epic> getAllEpics() {
+        return new ArrayList<>(epicCollection.values());
     }
 
-    public Collection<Subtask> getAllSubtasks() {
-       return subtaskCollection.values();
+    public ArrayList<Subtask> getAllSubtasks() {
+        return new ArrayList<>(subtaskCollection.values());
     }
 
     public void removeAllTasks() {
