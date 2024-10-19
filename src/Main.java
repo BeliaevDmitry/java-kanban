@@ -1,9 +1,20 @@
 import data.Status;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
 
+        /*Task task3 = new Task("task3", "task3 description", Status.NEW);
+        taskManager.addTask(task3);
+        taskManager.getTaskById(1).setStatus(Status.IN_PROGRESS);
+        taskManager.getTaskById(1);
+        System.out.println("История задач:");
+        for (Task task : taskManager.getHistory()) {
+            System.out.println(task);
+        }
+*/
         Task task1 = new Task("Задача 1", "Описание задачи 1", Status.NEW);
         taskManager.addTask(task1);
 
@@ -77,5 +88,10 @@ public class Main {
         for (Subtask subtask : taskManager.getSubtasksOfEpic(epic2)) {
             System.out.println(subtask);
         }
+        System.out.println("История задач:");
+        for (Task task : taskManager.getHistory()) {
+            System.out.println(task);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 import data.Status;
 
 public class Epic extends Task {
@@ -13,7 +14,9 @@ public class Epic extends Task {
     }
 
     public void addSubtaskId(int idOfSubtask) {
-        subtasksIds.add(idOfSubtask);
+            if (idOfSubtask != this.getIdOfTask()) { // Проверка на добавление самого себя
+            subtasksIds.add(idOfSubtask);
+        }
     }
 
     public void removeSubtaskId(Integer idOfSubtask) {

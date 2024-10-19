@@ -1,4 +1,5 @@
 import java.util.Objects;
+
 import data.Status;
 
 public class Task {   // задача
@@ -7,13 +8,20 @@ public class Task {   // задача
     private int idOfTask;
     private Status status;
 
+    public Task(Task newTask) {
+        this.title = newTask.title;
+        this.description = newTask.description;
+        this.status = newTask.status;
+    }
+
     public Task(String title, String description, Status status) {
         this.title = title;
         this.description = description;
         this.status = status;
     }
 
-        public int getIdOfTask() {
+
+    public int getIdOfTask() {
         return idOfTask;
     }
 
@@ -54,4 +62,6 @@ public class Task {   // задача
     public int hashCode() {
         return Objects.hash(title, description, idOfTask, status);
     }
+
+
 }
