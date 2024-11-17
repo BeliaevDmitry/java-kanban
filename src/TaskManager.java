@@ -1,5 +1,5 @@
 import data.Status;
-
+import java.util.List;
 import java.util.ArrayList;
 
 interface TaskManager {
@@ -40,7 +40,7 @@ interface TaskManager {
 
     void removeSubtask(int idOfTask) ;
 
-    ArrayList<Task> getHistory() ;
+    List<Task> getHistory() ;
 
     ArrayList<Subtask> getSubtasksOfEpic(Epic epic) ;
 
