@@ -1,9 +1,9 @@
 import data.Status;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
 
 import java.util.ArrayList;
-
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +53,7 @@ class InMemoryHistoryManagerTest {
         manager.addTaskInHistory(task2);
         ArrayList<Task> history = manager.getHistory();
         history.add(new Task("Task 3", "Description 3", Status.NEW));
-        assertEquals(2, manager.getHistory().size(),"размер manager.getHistory().size() не равен 2");
+        assertEquals(2, manager.getHistory().size(), "размер manager.getHistory().size() не равен 2");
         assertEquals(3, history.size(), "размер history.size() не равен 3");
     }
 
@@ -64,7 +64,7 @@ class InMemoryHistoryManagerTest {
         taskManager.addTask(task3);
         taskManager.getTaskById(1).setStatus(Status.IN_PROGRESS);
         List<Task> history = taskManager.getHistory();
-       assertNotEquals(Status.NEW , history.get(0).getStatus());
+        assertNotEquals(Status.NEW, history.get(0).getStatus());
     }
 
     @Test

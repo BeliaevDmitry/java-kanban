@@ -10,11 +10,11 @@ public class Epic extends Task {
     }
 
     public ArrayList<Integer> getSubtasksIds() {
-        return new ArrayList<> (subtasksIds);
+        return new ArrayList<>(subtasksIds);
     }
 
     public void addSubtaskId(int idOfSubtask) {
-            if (idOfSubtask != this.getIdOfTask()) { // Проверка на добавление самого себя
+        if (idOfSubtask != this.getIdOfTask()) { // Проверка на добавление самого себя
             subtasksIds.add(idOfSubtask);
         }
     }

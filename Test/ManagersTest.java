@@ -8,6 +8,6 @@ class ManagersTest {
     void getDefault() {
         TaskManager manager1 = Managers.getDefault();
         manager1.getAllTasks();
-assertNotNull(manager1.getAllTasks());
+        assertNotNull(manager1.getAllTasks());
     }
 }
