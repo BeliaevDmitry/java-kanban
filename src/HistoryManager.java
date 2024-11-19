@@ -1,8 +1,9 @@
-import java.util.ArrayList;
+import java.util.List;
 
 interface HistoryManager {
-
     void addTaskInHistory(Task task);
 
-    ArrayList<Task> getHistory();
+    List<Task> getHistory();
+
+    void remove(int id);
 }

@@ -91,8 +91,8 @@ class InMemoryTaskManagerTest {
         manager.addSubtask(subtask3);
 
         assertEquals(2, manager.getAllTasks().size());
-        assertEquals(2 , manager.getAllEpics().size());
-        assertEquals(3 , manager.getAllSubtasks().size());
+        assertEquals(2, manager.getAllEpics().size());
+        assertEquals(3, manager.getAllSubtasks().size());
 
 
     }
