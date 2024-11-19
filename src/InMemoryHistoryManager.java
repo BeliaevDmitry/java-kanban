@@ -9,15 +9,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     private Node tail;
     private final Map<Integer, Node> history = new HashMap<>();
 
-    private static class Node {
-        private final Task task;
-        private Node prev;
-        private Node next;
-
-        Node(Task task) {
-            this.task = task;
-        }
-    }
 
     @Override
     public void addTaskInHistory(Task task) {
@@ -31,8 +22,8 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
-        return new ArrayList<>(getTasks());
+    public List<Task> getHistory() {
+        return getTasks();
     }
 
     @Override
@@ -69,13 +60,24 @@ public class InMemoryHistoryManager implements HistoryManager {
         history.remove(node.task.getIdOfTask());
     }
 
-    private ArrayList<Task> getTasks() {
+    private List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
         Node current = head;
         while (current != null) {
             tasks.add(current.task);
             current = current.next;
         }
-        return (ArrayList<Task>) tasks;
+        return tasks;
+    }
+
+
+    private static class Node {
+        private final Task task;
+        private Node prev;
+        private Node next;
+
+        Node(Task task) {
+            this.task = task;
+        }
     }
 }

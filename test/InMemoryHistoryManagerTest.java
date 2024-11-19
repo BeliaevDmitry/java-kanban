@@ -51,7 +51,7 @@ class InMemoryHistoryManagerTest {
         Task task2 = new Task("Task 2", "Description 2", Status.NEW);
         task2.setIdOfTask(1);
         manager.addTaskInHistory(task2);
-        ArrayList<Task> history = manager.getHistory();
+        List<Task> history = manager.getHistory();
         history.add(new Task("Task 3", "Description 3", Status.NEW));
         assertEquals(2, manager.getHistory().size(), "размер manager.getHistory().size() не равен 2");
         assertEquals(3, history.size(), "размер history.size() не равен 3");
