@@ -11,7 +11,7 @@ import static java.lang.Integer.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
     private Path path = Path.of("src", "resources", "savedTasks.csv"); //файл по умолчанию
-
+    private static final String HEADER_CSV = "id,type,name,status,description,startTime, duration, epic";
     public FileBackedTaskManager(Path path) {
         this.path = path;
     }
@@ -108,7 +108,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         for (String s : line) {
             String[] element = s.split(",");
 
-            try (int id = Integer.parseInt(element[0].substring(1)) ) {
+            try {int id = Integer.parseInt(element[0].substring(1));
                 if (id > idMax) {
                     idMax = id;
                 }
@@ -148,6 +148,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     public void save() {
         try (BufferedWriter bw = Files.newBufferedWriter(path)) {
+            bw.write(HEADER_CSV + "\n");
             for (Task task : getAllTasks()) {
                 bw.write(task.toString() + "\n");
             }
