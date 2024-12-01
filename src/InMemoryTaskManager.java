@@ -1,4 +1,5 @@
 import data.Status;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,11 @@ public class InMemoryTaskManager extends Managers implements TaskManager {
     private final HashMap<Integer, Epic> epicCollection = new HashMap<>();
     private final HashMap<Integer, Subtask> subtaskCollection = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistoryManager();
+
+    public void setIdOfTasks(int idOfTasks) {
+        this.idOfTasks = idOfTasks;
+    }
+
     private int idOfTasks = 0;
 
     @Override
