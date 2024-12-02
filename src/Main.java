@@ -3,9 +3,10 @@ import data.Status;
 import java.nio.file.Path;
 
 public class Main {
+
+
     public static void main(String[] args) {
-        FileBackedTaskManager taskManager = new FileBackedTaskManager();
-        taskManager = FileBackedTaskManager.loadFromFile(Path.of("src/resources/savedTasks.csv"));
+        FileBackedTaskManager taskManager = FileBackedTaskManager.loadFromFile(Path.of("src/resources/savedTasks.csv"));
 
         Task task1 = new Task("Задача 1", "Описание задачи 1", Status.NEW);
         taskManager.addTask(task1);

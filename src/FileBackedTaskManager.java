@@ -1,4 +1,5 @@
 import data.Status;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,12 +7,14 @@ import java.nio.file.Path;
 import java.util.List;
 import data.Type;
 import exceptions.ManagerSaveException;
+
 import static java.lang.Integer.*;
 
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
     private Path path = Path.of("src", "resources", "savedTasks.csv"); //файл по умолчанию
-    private static final String HEADER_CSV = "id,type,name,status,description,startTime, duration, epic";
+    private static final String HEADER_CSV = "id,type,name,status,description,epic";
+
     public FileBackedTaskManager(Path path) {
         this.path = path;
     }
@@ -94,24 +97,27 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     public static FileBackedTaskManager loadFromFile(Path file) {
         try {
             List<String> lines = Files.readAllLines(file);
-            return fromString(String.valueOf(lines));
+            return fromString(lines);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-
-    private static FileBackedTaskManager fromString(String value) throws IllegalArgumentException {
+    private static FileBackedTaskManager fromString(List<String> lines) throws IllegalArgumentException {
         FileBackedTaskManager tm = new FileBackedTaskManager();
         int idMax = 0;
-        String[] line = value.split("\n");
-        for (String s : line) {
+        for (String s : lines) {
             String[] element = s.split(",");
 
-            try {int id = Integer.parseInt(element[0].substring(1));
+            int id;
+            try {
+                id = Integer.parseInt(element[0]);
                 if (id > idMax) {
                     idMax = id;
                 }
+            } catch (NumberFormatException ignored) {
+                continue;
+            }
 
                 Type type = Type.valueOf(element[1]);
                 String title = element[2];
@@ -135,12 +141,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                         tm.addSubtask(subtask);
                         subtask.setIdOfTask(id);
                         break;
-                    default:
-                        throw new IllegalArgumentException("Неизвестный тип задачи: " + type);
                 }
-            } catch (NumberFormatException e) {
-                continue;
-            }
+
         }
         tm.setIdOfTasks(idMax);
         return tm;
