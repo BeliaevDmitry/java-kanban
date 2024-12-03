@@ -1,23 +1,27 @@
 import java.util.Objects;
 
 import data.Status;
+import data.Type;
 
 public class Task {   // задача
     private String title;
     private String description;
     private int idOfTask;
     private Status status;
+    protected Type type;
 
     public Task(Task newTask) {
         this.title = newTask.title;
         this.description = newTask.description;
         this.status = newTask.status;
+        this.type = Type.TASK;
     }
 
     public Task(String title, String description, Status status) {
         this.title = title;
         this.description = description;
         this.status = status;
+        this.type = Type.TASK;
     }
 
 
@@ -37,14 +41,23 @@ public class Task {   // задача
         this.status = status;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+
     @Override
     public String toString() {
-        return this.getClass() + "{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", idOfTask=" + idOfTask +
-                ", status=" + status +
-                '}';
+        return String.format("%d,%s,%s,%s,%s",
+                getIdOfTask(),
+                type.toString(),
+                getTitle(),
+                getStatus(),
+                getDescription());
     }
 
     @Override
