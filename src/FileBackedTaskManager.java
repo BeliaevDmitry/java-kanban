@@ -103,6 +103,23 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         }
     }
 
+    private void save() {
+        try (BufferedWriter bw = Files.newBufferedWriter(path)) {
+            bw.write(HEADER_CSV + "\n");
+            for (Task task : getAllTasks()) {
+                bw.write(task.toString() + "\n");
+            }
+            for (Task epic : getAllEpics()) {
+                bw.write(epic.toString() + "\n");
+            }
+            for (Task subtask : getAllSubtasks()) {
+                bw.write(subtask.toString() + "\n");
+            }
+        } catch (IOException e) {
+            throw new ManagerSaveException("Не удалось сохранить данные в файл", e);
+        }
+    }
+
     private static FileBackedTaskManager fromString(List<String> lines) throws IllegalArgumentException {
         FileBackedTaskManager tm = new FileBackedTaskManager();
         int idMax = 0;
@@ -119,49 +136,32 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 continue;
             }
 
-                Type type = Type.valueOf(element[1]);
-                String title = element[2];
-                Status status = Status.valueOf(element[3]);
-                String description = element[4];
+            Type type = Type.valueOf(element[1]);
+            String title = element[2];
+            Status status = Status.valueOf(element[3]);
+            String description = element[4];
 
-                switch (type) {
-                    case TASK:
-                        Task task = new Task(title, description, status);
-                        tm.addTask(task);
-                        task.setIdOfTask(id);
-                        break;
-                    case EPIC:
-                        Epic epic = new Epic(title, description, status);
-                        tm.addEpic(epic);
-                        epic.setIdOfTask(id);
-                        break;
-                    case SUBTASK:
-                        int epicId = parseInt(element[5]);
-                        Subtask subtask = new Subtask(title, description, status, epicId);
-                        tm.addSubtask(subtask);
-                        subtask.setIdOfTask(id);
-                        break;
-                }
+            switch (type) {
+                case TASK:
+                    Task task = new Task(title, description, status);
+                    tm.addTask(task);
+                    task.setIdOfTask(id);
+                    break;
+                case EPIC:
+                    Epic epic = new Epic(title, description, status);
+                    tm.addEpic(epic);
+                    epic.setIdOfTask(id);
+                    break;
+                case SUBTASK:
+                    int epicId = parseInt(element[5]);
+                    Subtask subtask = new Subtask(title, description, status, epicId);
+                    tm.addSubtask(subtask);
+                    subtask.setIdOfTask(id);
+                    break;
+            }
 
         }
         tm.setIdOfTasks(idMax);
         return tm;
-    }
-
-    public void save() {
-        try (BufferedWriter bw = Files.newBufferedWriter(path)) {
-            bw.write(HEADER_CSV + "\n");
-            for (Task task : getAllTasks()) {
-                bw.write(task.toString() + "\n");
-            }
-            for (Task epic : getAllEpics()) {
-                bw.write(epic.toString() + "\n");
-            }
-            for (Task subtask : getAllSubtasks()) {
-                bw.write(subtask.toString() + "\n");
-            }
-        } catch (IOException e) {
-            throw new ManagerSaveException("Не удалось сохранить данные в файл", e);
-        }
     }
 }
