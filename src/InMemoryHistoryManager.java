@@ -70,7 +70,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         return tasks;
     }
 
-
     private static class Node {
         private final Task task;
         private Node prev;
