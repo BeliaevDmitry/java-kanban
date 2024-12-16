@@ -43,4 +43,8 @@ interface TaskManager {
 
     ArrayList<Subtask> getSubtasksOfEpic(Epic epic);
 
+    List<Subtask> getSubtaskEpic(Epic epic);
+
+    List<Task> getPrioritizedTasks();
+
 }

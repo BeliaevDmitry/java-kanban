@@ -1,3 +1,5 @@
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import data.Status;
@@ -9,12 +11,25 @@ public class Task {   // задача
     private int idOfTask;
     private Status status;
     protected Type type;
+    private Duration duration;
+    private LocalDateTime startTime;
 
     public Task(Task newTask) {
         this.title = newTask.title;
         this.description = newTask.description;
         this.status = newTask.status;
         this.type = Type.TASK;
+        this.duration = newTask.duration;
+        this.startTime = newTask.startTime;
+    }
+
+    public Task(String title, String description, Status status, LocalDateTime startTime, int duration) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.type = Type.TASK;
+        this.duration = Duration.ofMinutes(duration);
+        this.startTime = startTime;
     }
 
     public Task(String title, String description, Status status) {
@@ -24,6 +39,28 @@ public class Task {   // задача
         this.type = Type.TASK;
     }
 
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+
+    public LocalDateTime getEndTime(){
+        return startTime.plus(duration);
+    }
 
     public int getIdOfTask() {
         return idOfTask;
@@ -52,13 +89,15 @@ public class Task {   // задача
 
     @Override
     public String toString() {
-        return String.format("%d,%s,%s,%s,%s",
+        return String.format("%d,%s,%s,%s,%s,%s,%s",
                 getIdOfTask(),
                 type.toString(),
                 getTitle(),
                 getStatus(),
-                getDescription());
-    }
+                getDescription(),
+                getStartTime(),
+                getDuration().toMinutes());
+            }
 
     @Override
     public boolean equals(Object o) {
@@ -75,6 +114,4 @@ public class Task {   // задача
     public int hashCode() {
         return Objects.hash(title, description, idOfTask, status);
     }
-
-
 }

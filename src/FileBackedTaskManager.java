@@ -4,7 +4,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
+
 import data.Type;
 import exceptions.ManagerSaveException;
 
@@ -13,7 +16,7 @@ import static java.lang.Integer.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
     private Path path = Path.of("src", "resources", "savedTasks.csv"); //файл по умолчанию
-    private static final String HEADER_CSV = "id,type,name,status,description,epic";
+    private static final String HEADER_CSV = "id,type,name,status,description,epic,startTime,duration";
 
     public FileBackedTaskManager(Path path) {
         this.path = path;
@@ -140,21 +143,29 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             String title = element[2];
             Status status = Status.valueOf(element[3]);
             String description = element[4];
+            LocalDateTime startTime;
+            int duration;
+            try {
+                startTime = LocalDateTime.parse(element[5]);
+                duration = parseInt(element[6]);
+            } catch (DateTimeParseException ignored) {
+                continue;
+            }
 
             switch (type) {
                 case TASK:
-                    Task task = new Task(title, description, status);
+                    Task task = new Task(title, description, status, startTime, duration);
                     tm.addTask(task);
                     task.setIdOfTask(id);
                     break;
                 case EPIC:
-                    Epic epic = new Epic(title, description, status);
+                    Epic epic = new Epic(title, description, status, startTime, duration);
                     tm.addEpic(epic);
                     epic.setIdOfTask(id);
                     break;
                 case SUBTASK:
-                    int epicId = parseInt(element[5]);
-                    Subtask subtask = new Subtask(title, description, status, epicId);
+                    int epicId = parseInt(element[7]);
+                    Subtask subtask = new Subtask(title, description, status, epicId, startTime, duration);
                     tm.addSubtask(subtask);
                     subtask.setIdOfTask(id);
                     break;
