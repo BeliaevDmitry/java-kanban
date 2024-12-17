@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         FileBackedTaskManager taskManager = FileBackedTaskManager.loadFromFile(Path.of("src/resources/savedTasks.csv"));
 
-                System.out.println("Задачи созданы");
+        System.out.println("Задачи созданы");
         System.out.println("История задач:");
 
         for (Task task : taskManager.getHistory()) {
@@ -32,7 +32,7 @@ public class Main {
             System.out.println(task);
         }
 
-       taskManager.printPrioritizedTasks();
+        taskManager.printPrioritizedTasks();
 
         System.out.println("Конец программы");
 

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import data.Type;
@@ -16,7 +15,7 @@ import static java.lang.Integer.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
     private Path path = Path.of("src", "resources", "savedTasks.csv"); //файл по умолчанию
-    private static final String HEADER_CSV = "id,type,name,status,description,epic,startTime,duration";
+    private static final String HEADER_CSV = "id,type,name,status,description,startTime,duration,epicId";
 
     public FileBackedTaskManager(Path path) {
         this.path = path;
@@ -129,12 +128,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         for (String s : lines) {
             String[] element = s.split(",");
 
+            LocalDateTime startTime;
+            int duration;
             int id;
             try {
                 id = Integer.parseInt(element[0]);
                 if (id > idMax) {
                     idMax = id;
                 }
+                startTime = LocalDateTime.parse(element[5]);
+                duration = parseInt(element[6]);
             } catch (NumberFormatException ignored) {
                 continue;
             }
@@ -143,14 +146,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             String title = element[2];
             Status status = Status.valueOf(element[3]);
             String description = element[4];
-            LocalDateTime startTime;
-            int duration;
-            try {
-                startTime = LocalDateTime.parse(element[5]);
-                duration = parseInt(element[6]);
-            } catch (DateTimeParseException ignored) {
-                continue;
-            }
 
             switch (type) {
                 case TASK:
@@ -170,7 +165,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                     subtask.setIdOfTask(id);
                     break;
             }
-
         }
         tm.setIdOfTasks(idMax);
         return tm;

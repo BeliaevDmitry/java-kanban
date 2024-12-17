@@ -58,7 +58,7 @@ public class Task {   // задача
     }
 
 
-    public LocalDateTime getEndTime(){
+    public LocalDateTime getEndTime() {
         return startTime.plus(duration);
     }
 
@@ -97,7 +97,7 @@ public class Task {   // задача
                 getDescription(),
                 getStartTime(),
                 getDuration().toMinutes());
-            }
+    }
 
     @Override
     public boolean equals(Object o) {
