@@ -1,7 +1,6 @@
 import data.Status;
 import data.Type;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Subtask extends Task {   // подзадача
