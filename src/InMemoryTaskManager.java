@@ -64,7 +64,7 @@ public class InMemoryTaskManager extends Managers implements TaskManager {
             if (epic != null) {
                 epic.addSubtaskId(subtask.getIdOfTask());
                 calculateEpicStatus(epic);
-                EpicStartTimeAndDuration(epic);
+                epicStartTimeAndDuration(epic);
                 prioritizedTasks.add(subtask);
             }
         }
@@ -75,7 +75,7 @@ public class InMemoryTaskManager extends Managers implements TaskManager {
         if (subtaskCollection.containsKey(subtask.getIdOfTask())) {
             subtaskCollection.put(subtask.getIdOfTask(), subtask);
             calculateEpicStatus(epicCollection.get(subtask.getEpicId()));
-            EpicStartTimeAndDuration(epicCollection.get(subtask.getEpicId()));
+            epicStartTimeAndDuration(epicCollection.get(subtask.getEpicId()));
             overlappingIntervals(subtask);
             prioritizedTasks.add(subtask);
         }
@@ -129,7 +129,7 @@ public class InMemoryTaskManager extends Managers implements TaskManager {
         for (Epic epic : epicCollection.values()) {
             epic.getSubtasksIds().clear();
             epic.setStatus(Status.NEW);
-            EpicStartTimeAndDuration(epic);
+            epicStartTimeAndDuration(epic);
         }
 
     }
@@ -190,7 +190,7 @@ public class InMemoryTaskManager extends Managers implements TaskManager {
             historyManager.remove(idOfTask);
             epicCollection.get(idOfEpic).removeSubtaskId(idOfTask);
             calculateEpicStatus(epicCollection.get(idOfEpic));
-            EpicStartTimeAndDuration(epicCollection.get(idOfEpic));
+            epicStartTimeAndDuration(epicCollection.get(idOfEpic));
             prioritizedTasks.remove(getSubtaskById(idOfTask));
         }
     }
@@ -244,7 +244,7 @@ public class InMemoryTaskManager extends Managers implements TaskManager {
         epic.setStatus(Status.DONE);
     }
 
-    public void EpicStartTimeAndDuration(Epic epic) {
+    public void epicStartTimeAndDuration(Epic epic) {
         LocalDateTime startTime = getSubtasksOfEpic(epic).stream()
                 .filter(subtask -> subtask.getStartTime() != null)
                 .map(Subtask::getStartTime)

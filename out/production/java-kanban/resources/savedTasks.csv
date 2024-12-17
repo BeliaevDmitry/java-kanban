@@ -1,4 +1,4 @@
-id,type,name,status,description,epic,startTime,duration
+id,type,name,status,description,startTime,duration,epicId
 1,TASK,Задача 1,NEW,Описание задачи 1,2024-12-17T07:14:11.632528800,13
 2,TASK,Задача 2,NEW,Описание задачи 2,2024-12-17T08:14:11.675414700,13
 3,EPIC,Эпик 1,NEW,Описание эпика 1,2024-12-17T10:14:11.680400700,26
