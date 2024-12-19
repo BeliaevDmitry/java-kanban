@@ -15,7 +15,6 @@ class InMemoryHistoryManagerTest {
         manager = new InMemoryHistoryManager();
     }
 
-
     @Test
     void addTaskInHistory() {
         Task task1 = new Task("Задача 1", "Описание задачи 1", Status.NEW);
@@ -110,16 +109,16 @@ class InMemoryHistoryManagerTest {
         subtask2.setIdOfTask(4);
         manager.addTaskInHistory(subtask2);
 
-       assertEquals(5, manager.getHistory().size(), "История должна содержать только 5 записей");
+        assertEquals(5, manager.getHistory().size(), "История должна содержать только 5 записей");
 
-       manager.remove(0);
-       assertEquals(manager.getHistory().getFirst(),task2,"После удаления 1 записи 2 запись не стала первой");
+        manager.remove(0);
+        assertEquals(manager.getHistory().getFirst(), task2, "После удаления 1 записи 2 запись не стала первой");
 
         manager.remove(5);
-        assertEquals(manager.getHistory().getLast(),subtask2,"После удаления последней записи 5 запись не стала последней");
+        assertEquals(manager.getHistory().getLast(), subtask2, "После удаления последней записи 5 запись не стала последней");
 
         manager.remove(2);
-        assertEquals(manager.getHistory().getLast(),subtask2,"После удаления средней записи 4 запись не стала последней");
+        assertEquals(manager.getHistory().getLast(), subtask2, "После удаления средней записи 4 запись не стала последней");
 
     }
 }

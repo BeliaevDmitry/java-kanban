@@ -150,19 +150,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             switch (type) {
                 case TASK:
                     Task task = new Task(title, description, status, startTime, duration);
+                    tm.setIdOfTasks(--id);
                     tm.addTask(task);
-                    task.setIdOfTask(id);
                     break;
                 case EPIC:
                     Epic epic = new Epic(title, description, status, startTime, duration);
+                    tm.setIdOfTasks(--id);
                     tm.addEpic(epic);
-                    epic.setIdOfTask(id);
                     break;
                 case SUBTASK:
                     int epicId = parseInt(element[7]);
                     Subtask subtask = new Subtask(title, description, status, epicId, startTime, duration);
+                    tm.setIdOfTasks(--id);
                     tm.addSubtask(subtask);
-                    subtask.setIdOfTask(id);
                     break;
             }
         }

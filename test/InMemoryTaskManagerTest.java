@@ -1,4 +1,5 @@
 import exceptions.TaskValidationTimeException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -159,7 +160,6 @@ class InMemoryTaskManagerTest {
         Task newTask = new Task("Новая задача", "Описание новой задачи", NEW,
                 LocalDateTime.of(2023, 1, 1, 10, 30), 12);
         // Проверяем, что при пересекающихся интервалах генерируется исключение.
-        assertThrows(TaskValidationTimeException.class, () -> manager.overlappingIntervals(newTask));
+        assertThrows(TaskValidationTimeException.class, () -> manager.addTask(newTask),"Ошибка при добавление Task");
     }
 }
-
