@@ -1,4 +1,6 @@
 import data.Status;
+import data.Type;
+import exceptions.ManagerSaveException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -7,10 +9,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import data.Type;
-import exceptions.ManagerSaveException;
-
-import static java.lang.Integer.*;
+import static java.lang.Integer.parseInt;
 
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {

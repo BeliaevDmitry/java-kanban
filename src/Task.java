@@ -1,9 +1,9 @@
+import data.Status;
+import data.Type;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
-import data.Status;
-import data.Type;
 
 public class Task {   // задача
     private String title;

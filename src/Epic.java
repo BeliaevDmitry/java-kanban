@@ -1,9 +1,8 @@
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
 import data.Status;
 import data.Type;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Epic extends Task {
     private ArrayList<Integer> subtasksIds = new ArrayList<>();
