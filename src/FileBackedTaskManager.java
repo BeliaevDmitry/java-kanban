@@ -1,19 +1,20 @@
 import data.Status;
+import data.Type;
+import exceptions.ManagerSaveException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.List;
-import data.Type;
-import exceptions.ManagerSaveException;
 
-import static java.lang.Integer.*;
+import static java.lang.Integer.parseInt;
 
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
     private Path path = Path.of("src", "resources", "savedTasks.csv"); //файл по умолчанию
-    private static final String HEADER_CSV = "id,type,name,status,description,epic";
+    private static final String HEADER_CSV = "id,type,name,status,description,startTime,duration,epicId";
 
     public FileBackedTaskManager(Path path) {
         this.path = path;
@@ -126,12 +127,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         for (String s : lines) {
             String[] element = s.split(",");
 
+            LocalDateTime startTime;
+            int duration;
             int id;
             try {
                 id = Integer.parseInt(element[0]);
                 if (id > idMax) {
                     idMax = id;
                 }
+                startTime = LocalDateTime.parse(element[5]);
+                duration = parseInt(element[6]);
             } catch (NumberFormatException ignored) {
                 continue;
             }
@@ -143,23 +148,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
             switch (type) {
                 case TASK:
-                    Task task = new Task(title, description, status);
+                    Task task = new Task(title, description, status, startTime, duration);
+                    tm.setIdOfTasks(--id);
                     tm.addTask(task);
-                    task.setIdOfTask(id);
                     break;
                 case EPIC:
-                    Epic epic = new Epic(title, description, status);
+                    Epic epic = new Epic(title, description, status, startTime, duration);
+                    tm.setIdOfTasks(--id);
                     tm.addEpic(epic);
-                    epic.setIdOfTask(id);
                     break;
                 case SUBTASK:
-                    int epicId = parseInt(element[5]);
-                    Subtask subtask = new Subtask(title, description, status, epicId);
+                    int epicId = parseInt(element[7]);
+                    Subtask subtask = new Subtask(title, description, status, epicId, startTime, duration);
+                    tm.setIdOfTasks(--id);
                     tm.addSubtask(subtask);
-                    subtask.setIdOfTask(id);
                     break;
             }
-
         }
         tm.setIdOfTasks(idMax);
         return tm;

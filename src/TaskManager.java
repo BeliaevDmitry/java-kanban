@@ -1,5 +1,5 @@
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 interface TaskManager {
 
@@ -42,5 +42,9 @@ interface TaskManager {
     List<Task> getHistory();
 
     ArrayList<Subtask> getSubtasksOfEpic(Epic epic);
+
+    List<Subtask> getSubtaskEpic(Epic epic);
+
+    List<Task> getPrioritizedTasks();
 
 }
