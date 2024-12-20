@@ -1,9 +1,8 @@
 import data.Status;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
-import java.util.ArrayList;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +14,6 @@ class InMemoryHistoryManagerTest {
     public InMemoryHistoryManagerTest() {
         manager = new InMemoryHistoryManager();
     }
-
 
     @Test
     void addTaskInHistory() {
@@ -60,11 +58,11 @@ class InMemoryHistoryManagerTest {
     @Test
     public void testHistoryManagerSavesPreviousTaskState() {
         TaskManager taskManager = Managers.getDefault();
-        Task task3 = new Task("task3", "task3 description", Status.NEW);
+        Task task3 = new Task("Задача 3", "Описание задачи 3", Status.NEW, LocalDateTime.now(), 13);
         taskManager.addTask(task3);
         taskManager.getTaskById(1).setStatus(Status.IN_PROGRESS);
         List<Task> history = taskManager.getHistory();
-        assertNotEquals(Status.NEW, history.get(0).getStatus());
+        assertNotEquals(Status.NEW, history.get(0).getStatus(), "проверка setStatus завалена");
     }
 
     @Test
@@ -78,5 +76,49 @@ class InMemoryHistoryManagerTest {
         assertEquals(1, history.size(), "История должна содержать только одну запись для "
                 + "уникальной задачи");
         assertEquals(task1, history.getFirst(), "Запись в истории должна быть task1");
+    }
+
+    @Test
+    void emptyHistory() {
+        List<Task> history = manager.getHistory();
+
+        assertEquals(0, history.size(), "История должна содержать 0 записей");
+
+    }
+
+    @Test
+    void deleteTaskInHistory() {
+        Task task1 = new Task("Задача 1", "Описание задачи 1", Status.NEW, LocalDateTime.now(), 13);
+        task1.setIdOfTask(0);
+        manager.addTaskInHistory(task1);
+
+        Task task2 = new Task("Задача 2", "Описание задачи 2", Status.NEW, LocalDateTime.now().plusHours(1), 13);
+        task2.setIdOfTask(1);
+        manager.addTaskInHistory(task2);
+
+
+        Epic epic1 = new Epic("Эпик 1", "Описание эпика 1", Status.NEW, LocalDateTime.now().plusHours(2), 13);
+        epic1.setIdOfTask(2);
+        manager.addTaskInHistory(epic1);
+
+        Subtask subtask1 = new Subtask("Подзадача 1", "Описание подзадачи 1", Status.NEW, epic1.getIdOfTask(), LocalDateTime.now().plusHours(3), 13);
+        subtask1.setIdOfTask(3);
+        manager.addTaskInHistory(subtask1);
+
+        Subtask subtask2 = new Subtask("Подзадача 2", "Описание подзадачи 2", Status.NEW, epic1.getIdOfTask(), LocalDateTime.now().plusHours(4), 13);
+        subtask2.setIdOfTask(4);
+        manager.addTaskInHistory(subtask2);
+
+        assertEquals(5, manager.getHistory().size(), "История должна содержать только 5 записей");
+
+        manager.remove(0);
+        assertEquals(manager.getHistory().getFirst(), task2, "После удаления 1 записи 2 запись не стала первой");
+
+        manager.remove(5);
+        assertEquals(manager.getHistory().getLast(), subtask2, "После удаления последней записи 5 запись не стала последней");
+
+        manager.remove(2);
+        assertEquals(manager.getHistory().getLast(), subtask2, "После удаления средней записи 4 запись не стала последней");
+
     }
 }
