@@ -5,6 +5,7 @@ import data.Type;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Epic extends Task {
     private ArrayList<Integer> subtasksIds = new ArrayList<>();
@@ -57,6 +58,24 @@ public class Epic extends Task {
                 this.setEndTime(subtask.getEndTime());
             }
             this.getDuration().plus(subtask.getDuration());
+        }
+    }
+
+    public void epicStartTimeAndDurationOfEpic(HashMap<Integer, Subtask> subtaskCollection) {
+        var ids = getSubtasksIds();
+        this.setStartTime(null);
+        this.setEndTime(null);
+        for (int i = 0; i < ids.size(); i++) {
+            var subtask = subtaskCollection.get(ids.get(i));
+            if ((subtask.getStartTime() != null) && (subtask.getDuration() != null)) {
+                if (subtask.getStartTime().isBefore(this.getStartTime())) {
+                    this.setStartTime(subtask.getStartTime());
+                }
+                if (subtask.getEndTime().isAfter(this.getEndTime())) {
+                    this.setEndTime(subtask.getEndTime());
+                }
+                this.getDuration().plus(subtask.getDuration());
+            }
         }
     }
 }
