@@ -1,3 +1,7 @@
+package controllers;
+
+import model.Task;
+
 import java.util.List;
 
 interface HistoryManager {

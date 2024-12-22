@@ -1,3 +1,5 @@
+package model;
+
 import data.Status;
 import data.Type;
 

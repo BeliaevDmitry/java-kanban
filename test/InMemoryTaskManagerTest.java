@@ -1,5 +1,8 @@
+import controllers.InMemoryTaskManager;
 import exceptions.TaskValidationTimeException;
-import org.junit.jupiter.api.DisplayName;
+import model.Epic;
+import model.Subtask;
+import model.Task;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -85,7 +88,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void testAddSubtaskId_CantAddSelfAsSubtask() {
-        Epic epic = new Epic("Epic Title", "Epic Description", NEW);
+        Epic epic = new Epic("model.Epic Title", "model.Epic Description", NEW);
         int epicId = epic.getIdOfTask(); // Assuming getIdOfTask() returns a unique ID
 
         epic.addSubtaskId(epicId);
@@ -96,7 +99,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void testSubtaskCannotBeItsOwnEpic() {
-        Subtask subtask = new Subtask("Subtask", "Description", NEW, 1);
+        Subtask subtask = new Subtask("model.Subtask", "Description", NEW, 1);
         assertEquals(1, subtask.getEpicId());
 
         // Попытка установить себя в качестве эпика
@@ -153,13 +156,13 @@ class InMemoryTaskManagerTest {
 
     @Test
     void testOverlappingIntervals() {
-        // Создаем тестовые объекты Task.
+        // Создаем тестовые объекты model.Task.
         Task prioritizedTask = new Task("Приоритетная задача", "Описание приоритетной задачи", NEW,
                 LocalDateTime.of(2023, 1, 1, 10, 0), 35);
         manager.addTask(prioritizedTask);
         Task newTask = new Task("Новая задача", "Описание новой задачи", NEW,
                 LocalDateTime.of(2023, 1, 1, 10, 30), 12);
         // Проверяем, что при пересекающихся интервалах генерируется исключение.
-        assertThrows(TaskValidationTimeException.class, () -> manager.addTask(newTask),"Ошибка при добавление Task");
+        assertThrows(TaskValidationTimeException.class, () -> manager.addTask(newTask),"Ошибка при добавление model.Task");
     }
 }

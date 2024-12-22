@@ -1,4 +1,10 @@
+import controllers.InMemoryHistoryManager;
+import controllers.Managers;
+import controllers.TaskManager;
 import data.Status;
+import model.Epic;
+import model.Subtask;
+import model.Task;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -34,7 +40,7 @@ class InMemoryHistoryManagerTest {
     @Test
     void addTaskInHistory_newTask_addsToHistory() {
         InMemoryHistoryManager manager = new InMemoryHistoryManager();
-        Task task = new Task("Task 1", "Description 1", Status.NEW);
+        Task task = new Task("model.Task 1", "Description 1", Status.NEW);
         manager.addTaskInHistory(task);
         assertEquals(1, manager.getHistory().size());
         assertEquals(task, manager.getHistory().get(0));
@@ -43,14 +49,14 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void getHistory_returnsCopyOfHistory() {
-        Task task1 = new Task("Task 1", "Description 1", Status.NEW);
+        Task task1 = new Task("model.Task 1", "Description 1", Status.NEW);
         task1.setIdOfTask(0);
         manager.addTaskInHistory(task1);
-        Task task2 = new Task("Task 2", "Description 2", Status.NEW);
+        Task task2 = new Task("model.Task 2", "Description 2", Status.NEW);
         task2.setIdOfTask(1);
         manager.addTaskInHistory(task2);
         List<Task> history = manager.getHistory();
-        history.add(new Task("Task 3", "Description 3", Status.NEW));
+        history.add(new Task("model.Task 3", "Description 3", Status.NEW));
         assertEquals(2, manager.getHistory().size(), "размер manager.getHistory().size() не равен 2");
         assertEquals(3, history.size(), "размер history.size() не равен 3");
     }
@@ -67,7 +73,7 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void shouldUpdateHistoryWhenTaskViewedAgain() {
-        Task task1 = new Task("Task 1", "Description 1", Status.NEW);
+        Task task1 = new Task("model.Task 1", "Description 1", Status.NEW);
         manager.addTaskInHistory(task1);
         manager.addTaskInHistory(task1);
 
