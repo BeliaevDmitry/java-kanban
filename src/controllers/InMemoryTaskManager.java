@@ -1,5 +1,10 @@
+package controllers;
+
 import data.Status;
 import exceptions.TaskValidationTimeException;
+import model.Epic;
+import model.Subtask;
+import model.Task;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -178,12 +183,12 @@ public class InMemoryTaskManager extends Managers implements TaskManager {
     public void removeSubtask(int idOfTask) {
         if (subtaskCollection.containsKey(idOfTask)) {
             int idOfEpic = subtaskCollection.get(idOfTask).getEpicId();
+            prioritizedTasks.remove(getSubtaskById(idOfTask));
             subtaskCollection.remove(idOfTask);
             historyManager.remove(idOfTask);
             epicCollection.get(idOfEpic).removeSubtaskId(idOfTask);
             calculateEpicStatus(epicCollection.get(idOfEpic));
-            epicCollection.get(idOfEpic).epicStartTimeAndDuration(subtaskCollection.get(idOfTask));
-            prioritizedTasks.remove(getSubtaskById(idOfTask));
+            epicCollection.get(idOfEpic).epicStartTimeAndDurationOfEpic(subtaskCollection);
         }
     }
 
